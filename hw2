@@ -1,0 +1,32 @@
+def count_unique_characters(file_path):
+    char_frequency = {}
+    total_unique_chars = 0
+
+    with open(file_path, 'r') as file:
+        for line in file:
+            for char in line.strip():
+                if char.isalpha():
+                    lowercase_char = char.lower()
+                    hash_value = hash(lowercase_char)
+                    if hash_value not in char_frequency:
+                        char_frequency[hash_value] = 1
+                        total_unique_chars += 1
+                    else:
+                        char_frequency[hash_value] += 1
+
+    return total_unique_chars, char_frequency
+
+def main():
+    file_path = input("請輸入檔案路徑：")
+    try:
+        total_unique_chars, char_frequency = count_unique_characters(file_path)
+        print("總共有 %d 個不重複的英文字" % total_unique_chars)
+        print("每一個英文字出現次數：")
+        for hash_value, frequency in char_frequency.items():
+            print("%s: %d" % (hash_value, frequency))
+    except FileNotFoundError:
+        print("找不到指定的檔案！")
+
+if __name__ == "__main__":
+    main()
+
